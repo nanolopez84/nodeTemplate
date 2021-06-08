@@ -73,13 +73,18 @@ userSchema.pre('deleteOne', async function (next) {
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
+
+    /*
+        For security reasons these messages should be the same,
+        but for dev purposes they are not.
+    */
     if (!user) {
-        throw new Error('Unable to login');
+        throw new Error('User not found: [' + email + ']');
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-        throw new Error('Unable to login');
+        throw new Error('Password missmatch: ');
     }
 
     return user;

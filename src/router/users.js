@@ -74,6 +74,7 @@ router.post('/logoutAll', auth, async (req, res) => {
     }
 });
 
+// Does not verify for duplicated user to keep the example very simple
 router.post('/users', auth, async (req, res) => {
     try {
         const user = new User(req.body);
@@ -104,6 +105,10 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user);
 });
 
+/*
+If you use Postman do not forget to set form-data in the body request
+and a key named "avatar" of type file and then upload a .png image
+*/
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
     if (!req.file) {
         return res.status(400).send('File content must be in \'avatar\' field');
